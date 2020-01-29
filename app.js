@@ -1,6 +1,9 @@
 
 let target = document.getElementById('rps-state')
 
+let player2;
+
+
 /** plays a game of rock paper sicors.
  * @param {string} choice1 - the first player's choice.
  * @param {string} choice2 - the second player's choice.
@@ -52,7 +55,7 @@ function randomPlay() {
  * @param {string} choice1 the first player's choice.
  * @param {string} [choice2=randomPlay() ] the second player's choice.
  */
-function play(choice1, choice2 = randomPlay()) {
+function play(choice1, choice2 = player2 || randomPlay()) {
   let result = rpsLogic(choice1, choice2)
   // alert(result)
   drawState(result)
@@ -69,4 +72,9 @@ function drawState(state) {
 
   target.innerHTML = states[state]
 
+}
+
+function setPlayer2(input) {
+  player2 = input
+  console.log(`set player2 to ${player2}`)
 }
