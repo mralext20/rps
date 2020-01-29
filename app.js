@@ -1,5 +1,8 @@
 
-let target = document.getElementById('rps-state')
+let scale = document.getElementById('rps-state')
+let player1Played = document.getElementById('rps-player1-played')
+let player2Played = document.getElementById('rps-player2-played')
+
 
 let player2Choice = 'random';
 let player1Choice = 'random';
@@ -97,14 +100,22 @@ function play(choice1, choice2) {
 }
 
 let states = {
-  'winner': '<i class="fas fa-trophy fa-10x"></i>',
-  'loser': '<i class="fas fa-ban fa-10x"></i>',
+  'winner': '<i class="fas fa-balance-scale-left fa-10x"></i>',
+  'loser': '<i class="fas fa-balance-scale-right fa-10x"></i>',
   'draw': '<i class="fas fa-balance-scale fa-10x"></i>'
+}
+
+let moves = {
+  'rock': '<i class="fa fa-10x fa-hand-rock"></i>',
+  'paper': '<i class="fas fa-10x fa-hand-paper"></i>',
+  'scissors': '<i class="fas fa-10x fa-hand-scissors"></i>'
 }
 
 function drawState(state) {
 
-  target.innerHTML = states[state]
+  scale.innerHTML = states[state]
+  player1Played.innerHTML = moves[player1Last || player1Choice]
+  player2Played.innerHTML = moves[player2Last || player2Choice]
 
 }
 
@@ -152,6 +163,7 @@ function setPlayer1(input) {
   player1Choice = input
   play(player1Choice, player2Choice)
   console.log(`set player1 to ${player1Choice}`)
+
   drawShadows()
 }
 
