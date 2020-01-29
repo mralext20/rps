@@ -1,9 +1,24 @@
 
 let target = document.getElementById('rps-state')
 
-let player2Choice;
-let player1LastChoice = 'rock';
+let player2Choice = 'random';
+let player1Choice = 'random';
 
+
+let buttons = {
+  player1: {
+    random: document.getElementById('player1random'),
+    rock: document.getElementById('player1rock'),
+    paper: document.getElementById('player1paper'),
+    scissors: document.getElementById('player1scissors')
+  },
+  player2: {
+    random: document.getElementById('player2random'),
+    rock: document.getElementById('player2rock'),
+    paper: document.getElementById('player2paper'),
+    scissors: document.getElementById('player2scissors')
+  }
+}
 
 /** plays a game of rock paper sicors.
  * @param {string} choice1 - the first player's choice.
@@ -11,6 +26,8 @@ let player1LastChoice = 'rock';
  * @returns {string} - what state the first player is in, winning, lost, or draw.
  */
 function rpsLogic(choice1, choice2) {
+  if (choice1 == 'random') choice1 = randomPlay();
+  if (choice2 == 'random') choice2 = randomPlay();
   switch (choice1) {
     case 'rock':
       switch (choice2) {
@@ -54,13 +71,13 @@ function randomPlay() {
 
 /**
  * @param {string} choice1 the first player's choice.
- * @param {string} [choice2=randomPlay() ] the second player's choice.
+ * @param {string} [choice2] the second player's choice.
  */
-function play(choice1, choice2 = player2Choice || randomPlay()) {
-  player1LastChoice = choice1;
+function play(choice1, choice2) {
   let result = rpsLogic(choice1, choice2)
   // alert(result)
   drawState(result)
+  console.log(`player 1 is the ${result}`)
   return result
 }
 
@@ -76,8 +93,51 @@ function drawState(state) {
 
 }
 
+function drawShadows() {
+  Object.values(buttons.player1).forEach(element => {
+    element.classList.remove('glow')
+  });
+  Object.values(buttons.player2).forEach(element => {
+    element.classList.remove('glow')
+  });
+  switch (player1Choice) {
+    case 'random':
+      buttons.player1.random.classList.add('glow')
+      break;
+    case 'rock':
+      buttons.player1.rock.classList.add('glow')
+      break;
+    case 'paper':
+      buttons.player1.paper.classList.add('glow')
+      break;
+    case 'scissors':
+      buttons.player1.scissors.classList.add('glow')
+      break;
+  }
+  switch (player2Choice) {
+    case 'random':
+      buttons.player2.random.classList.add('glow')
+      break;
+    case 'rock':
+      buttons.player2.rock.classList.add('glow')
+      break;
+    case 'paper':
+      buttons.player2.paper.classList.add('glow')
+      break;
+    case 'scissors':
+      buttons.player2.scissors.classList.add('glow')
+  }
+}
+
 function setPlayer2(input) {
   player2Choice = input
-  play(player1LastChoice, input)
+  play(player1Choice, input)
   console.log(`set player2 to ${player2Choice}`)
+  drawShadows()
+}
+function setPlayer1(input) {
+  player1Choice = input
+  play(player1Choice, player2Choice)
+  console.log(`set player1 to ${player1Choice}`)
+  drawShadows()
 }
