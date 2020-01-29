@@ -4,6 +4,9 @@ let target = document.getElementById('rps-state')
 let player2Choice = 'random';
 let player1Choice = 'random';
 
+let player1Last;
+let player2Last;
+
 
 let buttons = {
   player1: {
@@ -26,8 +29,19 @@ let buttons = {
  * @returns {string} - what state the first player is in, winning, lost, or draw.
  */
 function rpsLogic(choice1, choice2) {
-  if (choice1 == 'random') choice1 = randomPlay();
-  if (choice2 == 'random') choice2 = randomPlay();
+  if (choice1 == 'random') {
+    choice1 = randomPlay()
+    player1Last = choice1;
+  } else {
+    player1Last = undefined;
+  }
+  if (choice2 == 'random') {
+    choice2 = randomPlay()
+    player2Last = choice2;
+  } else {
+    player2Last = undefined;
+  }
+
   switch (choice1) {
     case 'rock':
       switch (choice2) {
@@ -78,6 +92,7 @@ function play(choice1, choice2) {
   // alert(result)
   drawState(result)
   console.log(`player 1 is the ${result}`)
+  drawShadows()
   return result
 }
 
@@ -93,41 +108,39 @@ function drawState(state) {
 
 }
 
+function switchPlayerAddEffect(played, player, effect) {
+  switch (played) {
+    case 'random':
+      player.random.classList.add(effect)
+      break;
+    case 'rock':
+      player.rock.classList.add(effect)
+      break;
+    case 'paper':
+      player.paper.classList.add(effect)
+      break;
+    case 'scissors':
+      player.scissors.classList.add(effect)
+  }
+}
+
 function drawShadows() {
   Object.values(buttons.player1).forEach(element => {
     element.classList.remove('glow')
+    element.classList.remove('glow-wrong')
   });
   Object.values(buttons.player2).forEach(element => {
     element.classList.remove('glow')
+    element.classList.remove('glow-wrong')
   });
-  switch (player1Choice) {
-    case 'random':
-      buttons.player1.random.classList.add('glow')
-      break;
-    case 'rock':
-      buttons.player1.rock.classList.add('glow')
-      break;
-    case 'paper':
-      buttons.player1.paper.classList.add('glow')
-      break;
-    case 'scissors':
-      buttons.player1.scissors.classList.add('glow')
-      break;
-  }
-  switch (player2Choice) {
-    case 'random':
-      buttons.player2.random.classList.add('glow')
-      break;
-    case 'rock':
-      buttons.player2.rock.classList.add('glow')
-      break;
-    case 'paper':
-      buttons.player2.paper.classList.add('glow')
-      break;
-    case 'scissors':
-      buttons.player2.scissors.classList.add('glow')
-  }
+
+  switchPlayerAddEffect(player1Choice, buttons.player1, 'glow')
+  switchPlayerAddEffect(player1Last, buttons.player1, 'glow-wrong')
+  switchPlayerAddEffect(player2Choice, buttons.player2, 'glow')
+  switchPlayerAddEffect(player2Last, buttons.player2, 'glow-wrong')
+
 }
+
 
 function setPlayer2(input) {
   player2Choice = input

@@ -5,3 +5,11 @@
 .player2 .glow button {
   box-shadow: 0px 0px 20px red ;
 }
+
+.player1 .glow-wrong button {
+  box-shadow: 0px 0px 20px red ;
+}
+
+.player2 .glow-wrong button {
+  box-shadow: 0px 0px 20px blue ;
+}
