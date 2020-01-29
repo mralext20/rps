@@ -141,3 +141,12 @@ function setPlayer1(input) {
   console.log(`set player1 to ${player1Choice}`)
   drawShadows()
 }
+
+
+
+
+
+
+// on load
+
+drawShadows()
